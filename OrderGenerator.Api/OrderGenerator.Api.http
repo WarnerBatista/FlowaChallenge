@@ -1,6 +1,66 @@
-@OrderGenerator.Api_HostAddress = http://localhost:5228
+@OrderGenerator.Api_HostAddress = http://localhost:5228/api
 
-GET {{OrderGenerator.Api_HostAddress}}/
-Accept: application/json
+### Sucessful Order Creation
+POST {{OrderGenerator.Api_HostAddress}}/orders/send
+Content-Type: application/json
 
-###
+{
+  "symbol": "PETR4",
+  "side": "Buy",
+  "quantity": 1000,
+  "price": 25.50
+}
+
+#### Invalid Symbol
+POST {{OrderGenerator.Api_HostAddress}}/orders/send
+Content-Type: application/json
+
+{
+  "symbol": "ITUB4",
+  "side": "buy",
+  "quantity": 1000,
+  "price": 25.50
+}
+
+#### Invalid Side
+POST {{OrderGenerator.Api_HostAddress}}/orders/send
+Content-Type: application/json
+{
+  "symbol": "PETR4",
+  "side": "Swape",
+  "quantity": 1000,
+  "price": 25.50
+}
+
+#### Invalid Quantity
+POST {{OrderGenerator.Api_HostAddress}}/orders/send
+Content-Type: application/json
+
+{
+  "symbol": "PETR4",
+  "side": "Sell",
+  "quantity": -1000,
+  "price": 25.50
+}
+
+### Invalid Price
+POST {{OrderGenerator.Api_HostAddress}}/orders/send
+Content-Type: application/json
+
+{
+  "symbol": "PETR4",
+  "side": "sell",
+  "quantity": 1000,
+  "price": -25.50
+}
+
+### Price with more than 2 decimal places
+POST {{OrderGenerator.Api_HostAddress}}/orders/send
+Content-Type: application/json
+
+{
+  "symbol": "PETR4",
+  "side": "sell",
+  "quantity": 1000,
+  "price": 25.502
+}

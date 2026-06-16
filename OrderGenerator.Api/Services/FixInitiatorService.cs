@@ -1,4 +1,6 @@
-﻿using QuickFix;
+﻿using OrderGenerator.Api.Dtos;
+using OrderGenerator.Api.Services.Interfaces;
+using QuickFix;
 using QuickFix.Fields;
 using QuickFix.FIX44;
 using QuickFix.Logger;
@@ -7,7 +9,7 @@ using QuickFix.Transport;
 
 namespace OrderGenerator.Api.Services;
 
-public class FixInitiatorService
+public class FixInitiatorService : IFixInitiatorService
 {
     private readonly string _configFile;
     private IInitiator? _initiator;
@@ -29,13 +31,6 @@ public class FixInitiatorService
         _initiator.Start();
 
         Console.WriteLine("Initiator iniciado e aguardando logon...");
-
-        while (!_initiator.IsLoggedOn)
-        {
-            Thread.Sleep(1000);
-        }
-
-        SendOrder();
     }
 
     public void Stop()
@@ -44,7 +39,7 @@ public class FixInitiatorService
         Console.WriteLine("Initiator encerrado.");
     }
 
-    public void SendOrder()
+    public void SendOrder(OrderDto order)
     {
         if (_application?.SessionID == null)
         {
@@ -52,18 +47,28 @@ public class FixInitiatorService
             return;
         }
 
-        var order = new NewOrderSingle(
+        var orderSingle = new NewOrderSingle(
             new ClOrdID(Guid.NewGuid().ToString()),
-            new Symbol("PETR4"),
-            new Side(Side.BUY),
+            new Symbol(order.Symbol),
+            GetSide(order.Side),
             new TransactTime(DateTime.UtcNow),
             new OrdType(OrdType.LIMIT)
         );
 
-        order.SetField(new OrderQty(100));
-        order.SetField(new Price(25.00m));
+        orderSingle.SetField(new OrderQty(order.Quantity));
+        orderSingle.SetField(new Price(order.Price));
 
-        Session.SendToTarget(order, _application.SessionID);
+        Session.SendToTarget(orderSingle, _application.SessionID);
         Console.WriteLine("Ordem de teste enviada.");
+    }
+
+    private static Side GetSide(string side)
+    {
+        return side.Trim().ToLowerInvariant() switch
+        {
+            "buy" => new Side(Side.BUY),
+            "sell" => new Side(Side.SELL),
+            _ => throw new ArgumentException("Side inválido")
+        };
     }
 }
