@@ -1,5 +1,4 @@
-﻿using OrderGenerator.Api.Handlers;
-using QuickFix;
+﻿using QuickFix;
 using QuickFix.Fields;
 using QuickFix.FIX44;
 using QuickFix.Logger;
@@ -12,17 +11,17 @@ public class FixInitiatorService
 {
     private readonly string _configFile;
     private IInitiator? _initiator;
-    private FixMessageHandler? _application;
+    private readonly OrderGeneratorApplication _application;
 
-    public FixInitiatorService(string configFile)
+    public FixInitiatorService(string configFile, OrderGeneratorApplication application)
     {
-        _configFile = configFile;
+        _configFile = configFile ?? throw new ArgumentNullException(nameof(configFile));
+        _application = application ?? throw new ArgumentNullException(nameof(application));
     }
 
     public void Start()
     {
         var settings = new SessionSettings(_configFile);
-        _application = new FixMessageHandler();
         var storeFactory = new FileStoreFactory(settings);
         var logFactory = new FileLogFactory(settings);
 

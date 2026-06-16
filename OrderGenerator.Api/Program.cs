@@ -6,7 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton(new FixInitiatorService("config/initiator.cfg"));
+builder.Services.AddSingleton<OrderGeneratorApplication>();
+builder.Services.AddSingleton(sp =>
+    {
+        var application = sp.GetRequiredService<OrderGeneratorApplication>();
+        return new FixInitiatorService("config/initiator.cfg", application);
+    });
 
 var app = builder.Build();
 

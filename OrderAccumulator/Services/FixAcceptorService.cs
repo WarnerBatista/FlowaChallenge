@@ -1,5 +1,4 @@
-﻿using OrderAccumulator.Handlers;
-using QuickFix;
+﻿using QuickFix;
 using QuickFix.Logger;
 using QuickFix.Store;
 
@@ -18,7 +17,7 @@ public class FixAcceptorService
     public void Start()
     {
         var settings = new SessionSettings(_configFile);
-        var application = new FixMessageHandler();
+        var application = new OrderAccumulatorApplication();
         var storeFactory = new FileStoreFactory(settings);
         var logFactory = new FileLogFactory(settings);
 

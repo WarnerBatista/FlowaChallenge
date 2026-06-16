@@ -1,8 +1,8 @@
 ﻿using QuickFix;
 
-namespace OrderGenerator.Api.Handlers;
+namespace OrderGenerator.Api.Services;
 
-public class FixMessageHandler : IApplication
+public class OrderGeneratorApplication : IApplication
 {
     public SessionID? SessionID { get; private set; }
 

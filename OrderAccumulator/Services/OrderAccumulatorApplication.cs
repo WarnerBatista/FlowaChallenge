@@ -2,9 +2,9 @@
 using QuickFix.Fields;
 using QuickFix.FIX44;
 
-namespace OrderAccumulator.Handlers;
+namespace OrderAccumulator.Services;
 
-public class FixMessageHandler : IApplication
+public class OrderAccumulatorApplication : IApplication
 {
     int orderID = 0;
     int execID = 0;
