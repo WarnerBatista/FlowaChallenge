@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Apps/" />
+  <Folder Name="/Apps/OrderAccumulator/">
+    <Project Path="OrderAccumulator.UnitTests/OrderAccumulator.UnitTests.csproj" Id="337c3da1-cde1-4310-a9e9-1c38b8af2ee3" />
+    <Project Path="OrderAccumulator/OrderAccumulator.csproj" Id="b1c9b1b3-939a-4854-9221-3b0477d4493e" />
+  </Folder>
+  <Folder Name="/Apps/OrderGenerator.Api/">
+    <Project Path="OrderGenerator.Api/OrderGenerator.Api.csproj" Id="6c159474-fb32-42d4-b6f8-45b7c0c2e998" />
+    <Project Path="OrderGenerator.UnitTests/OrderGenerator.UnitTests.csproj" Id="72589a45-7bdf-4d2e-878a-b85c5518f1d8" />
+  </Folder>
+  <Folder Name="/Apps/OrderGenerator.Portal/" />
+  <Folder Name="/buildingBlocks/" />
+  <Folder Name="/buildingBlocks/Abstrations/" />
+  <Folder Name="/buildingBlocks/Abstrations/Domain/" />
+</Solution>
