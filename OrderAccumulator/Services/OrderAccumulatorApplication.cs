@@ -25,6 +25,7 @@ public class OrderAccumulatorApplication : IApplication
             Console.WriteLine("Nova ordem recebida.");
 
             // Todo: Aplicar lógica de acumulação de ordens aqui, por enquanto apenas respondemos com um ExecutionReport do tipo New.
+            Thread.Sleep(5000);
 
             var execReport = new QuickFix.FIX44.ExecutionReport(
                 new OrderID(order.ClOrdID.Value),
