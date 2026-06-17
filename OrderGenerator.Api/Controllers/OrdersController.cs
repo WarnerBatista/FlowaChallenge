@@ -16,9 +16,9 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost("send")]
-    public IActionResult SendOrder(OrderDto order)
+    public IActionResult SendOrder(OrderRequest order)
     {
-        _fixService.SendOrder(order);
-        return Accepted("Ordem enviada via FIX");
+        var response = _fixService.SendOrder(order);
+        return Accepted(response);
     }
 }

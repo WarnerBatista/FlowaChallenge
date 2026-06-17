@@ -30,25 +30,23 @@ public class FixInitiatorService : IFixInitiatorService
         _initiator = new SocketInitiator(_application, storeFactory, settings, logFactory);
         _initiator.Start();
 
-        Console.WriteLine("Initiator iniciado e aguardando logon...");
+        Console.WriteLine("Initiator started");
     }
 
     public void Stop()
     {
         _initiator?.Stop();
-        Console.WriteLine("Initiator encerrado.");
+        Console.WriteLine("Initiator stopped.");
     }
 
-    public void SendOrder(OrderDto order)
+    public OrderResponse SendOrder(OrderRequest order)
     {
         if (_application?.SessionID == null)
-        {
-            Console.WriteLine("Sessão FIX não está ativa.");
-            return;
-        }
+            return new OrderResponse("Something went wrong!", Guid.Empty, "Error");
 
+        var orderId = Guid.NewGuid();
         var orderSingle = new NewOrderSingle(
-            new ClOrdID(Guid.NewGuid().ToString()),
+            new ClOrdID(orderId.ToString()),
             new Symbol(order.Symbol),
             GetSide(order.Side),
             new TransactTime(DateTime.UtcNow),
@@ -58,8 +56,12 @@ public class FixInitiatorService : IFixInitiatorService
         orderSingle.SetField(new OrderQty(order.Quantity));
         orderSingle.SetField(new Price(order.Price));
 
-        Session.SendToTarget(orderSingle, _application.SessionID);
-        Console.WriteLine("Ordem de teste enviada.");
+        var sent = Session.SendToTarget(orderSingle, _application.SessionID);
+
+        if (!sent)
+            return new OrderResponse("Failed to send order!", orderId, "Error");
+
+        return new OrderResponse("Order received and is being processed.", orderId, "Pending");
     }
 
     private static Side GetSide(string side)
@@ -68,7 +70,7 @@ public class FixInitiatorService : IFixInitiatorService
         {
             "buy" => new Side(Side.BUY),
             "sell" => new Side(Side.SELL),
-            _ => throw new ArgumentException("Side inválido")
+            _ => throw new ArgumentException("Invalid Side")
         };
     }
 }

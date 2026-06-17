@@ -6,5 +6,5 @@ public interface IFixInitiatorService
 {
     void Start();
     void Stop();
-    void SendOrder(OrderDto order);
+    OrderResponse SendOrder(OrderRequest order);
 }

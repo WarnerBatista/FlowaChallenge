@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OrderGenerator.Api.Dtos;
 
-public record OrderDto(
+public record OrderRequest(
     [Required]
     [RegularExpression("^(PETR4|VALE3|VIIA4)$",
     ErrorMessage = "The Symbol field must be one of the following values: PETR4, VALE3 ou VIIA4.")]

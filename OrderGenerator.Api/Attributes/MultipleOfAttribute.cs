@@ -12,6 +12,6 @@ public class MultipleOfAttribute : ValidationAttribute
         if (value is decimal d && d % _factor == 0)
             return ValidationResult.Success;
 
-        return new ValidationResult($"O valor deve ser múltiplo de {_factor}");
+        return new ValidationResult($"The value must be a multiple of {_factor}");
     }
 }
