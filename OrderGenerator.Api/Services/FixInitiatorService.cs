@@ -56,10 +56,7 @@ public class FixInitiatorService : IFixInitiatorService
         orderSingle.SetField(new OrderQty(order.Quantity));
         orderSingle.SetField(new Price(order.Price));
 
-        var sent = Session.SendToTarget(orderSingle, _application.SessionID);
-
-        if (!sent)
-            return new OrderResponse("Failed to send order!", orderId, "Error");
+        Task.Run(() => Session.SendToTarget(orderSingle, _application.SessionID));
 
         return new OrderResponse("Order received and is being processed.", orderId, "Pending");
     }
