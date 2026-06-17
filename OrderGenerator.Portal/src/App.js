@@ -24,7 +24,7 @@ function App() {
       });
 
       connection.on("OrderStatusUpdated", (update) => {
-        setStatus(`Order ${update.orderId} → Status: ${update.status}`);
+        setStatus(`Order: ${update.orderId} → Status: ${update.status}`);
         setMessage(update.message);
       });
 
@@ -43,7 +43,7 @@ function App() {
         price,
       });
       setOrderId(response.data.orderId);
-      setStatus(response.data.status);
+      setStatus(`Order: ${response.data.orderId} → Status: ${response.data.status}`);
       setMessage(response.data.message);
     } catch (err) {
       setMessage("Error sending order.");
