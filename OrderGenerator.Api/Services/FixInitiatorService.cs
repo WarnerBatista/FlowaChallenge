@@ -42,11 +42,11 @@ public class FixInitiatorService : IFixInitiatorService
     public OrderResponse SendOrder(OrderRequest order)
     {
         if (_application?.SessionID == null)
-            return new OrderResponse("Something went wrong!", Guid.Empty, "Error");
+            return new OrderResponse("Something went wrong!", Guid.Empty.ToString(), "Error");
 
-        var orderId = Guid.NewGuid();
+        var orderId = Guid.NewGuid().ToString();
         var orderSingle = new NewOrderSingle(
-            new ClOrdID(orderId.ToString()),
+            new ClOrdID(orderId),
             new Symbol(order.Symbol),
             GetSide(order.Side),
             new TransactTime(DateTime.UtcNow),

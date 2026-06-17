@@ -1,3 +1,4 @@
+using OrderGenerator.Api.Hubs;
 using OrderGenerator.Api.Services;
 using OrderGenerator.Api.Services.Interfaces;
 
@@ -12,6 +13,7 @@ builder.Services.AddSingleton<IFixInitiatorService>(sp =>
         return new FixInitiatorService("config/initiator.cfg", application);
     });
 
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -24,5 +26,7 @@ fixService.Start();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<OrderHub>("/orderHub");
 
 app.Run();
