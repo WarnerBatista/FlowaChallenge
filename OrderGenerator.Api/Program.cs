@@ -15,6 +15,16 @@ builder.Services.AddSingleton<IFixInitiatorService>(sp =>
 
 builder.Services.AddSignalR();
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials()
+               .SetIsOriginAllowed(origin => true);
+    });
+});
 
 var app = builder.Build();
 
@@ -26,6 +36,7 @@ fixService.Start();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors();
 
 app.MapHub<OrderHub>("/orderHub");
 
