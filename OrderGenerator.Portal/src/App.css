@@ -56,3 +56,10 @@ input, select {
   font-size: 1.1em;
   color: #333;
 }
+
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 4px;
+  display: block;
+}
