@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "OrderAccumulator\\OrderAccumulator.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "OrderGenerator.Api\\OrderGenerator.Api.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
