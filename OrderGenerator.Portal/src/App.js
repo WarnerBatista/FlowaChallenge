@@ -9,6 +9,7 @@ function App() {
   const [orderId, setOrderId] = useState(null);
   const [status, setStatus] = useState("");
   const [message, setMessage] = useState("No orders have been sent yet.");
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     if (orderId) {
@@ -38,14 +39,11 @@ function App() {
       setOrderId(response.data.orderId);
       setStatus(`Order: ${response.data.orderId} → Status: ${response.data.status}`);
       setMessage(response.data.message);
+      setFormErrors({});
     } catch (err) {
-        console.log(err.response.data);
       if (err.response && err.response.data && err.response.data.errors) {
         const backendErrors = err.response.data.errors;
-        const formattedErrors = Object.keys(backendErrors).map(
-          (field) => `${field}: ${backendErrors[field].join(", ")}`
-        );
-        setMessage(formattedErrors.join(" | "));
+        setFormErrors(backendErrors);
       } else {
         setMessage("Error sending order.");
       }
@@ -58,7 +56,7 @@ function App() {
         <h1>Order Generator Portal</h1>
       </header>
       <main>
-        <OrderForm onSubmit={submitOrder} />
+        <OrderForm onSubmit={submitOrder} backendErrors={formErrors} />
         <OrderStatus status={status} message={message} />
       </main>
     </div>

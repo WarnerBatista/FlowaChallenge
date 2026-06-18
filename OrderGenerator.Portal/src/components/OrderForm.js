@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function OrderForm({ onSubmit }) {
+function OrderForm({ onSubmit, backendErrors }) {
   const [symbol, setSymbol] = useState("");
   const [side, setSide] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -37,6 +37,7 @@ function OrderForm({ onSubmit }) {
           <option value="VIIA4">VIIA4</option>
         </select>
         {errors.symbol && <span className="error">{errors.symbol}</span>}
+        {backendErrors.Symbol && <span className="error">{backendErrors.Symbol[0]}</span>}
       </div>
 
       <div className="form-group">
@@ -47,6 +48,7 @@ function OrderForm({ onSubmit }) {
           <option value="Sell">Sell</option>
         </select>
         {errors.side && <span className="error">{errors.side}</span>}
+        {backendErrors.Side && <span className="error">{backendErrors.Side[0]}</span>}
       </div>
 
       <div className="form-group">
@@ -57,6 +59,7 @@ function OrderForm({ onSubmit }) {
           onChange={(e) => setQuantity(e.target.value)}
         />
         {errors.quantity && <span className="error">{errors.quantity}</span>}
+        {backendErrors.Quantity && <span className="error">{backendErrors.Quantity[0]}</span>}
       </div>
 
       <div className="form-group">
@@ -67,6 +70,7 @@ function OrderForm({ onSubmit }) {
           onChange={(e) => setPrice(e.target.value)}
         />
         {errors.price && <span className="error">{errors.price}</span>}
+        {backendErrors.Price && <span className="error">{backendErrors.Price[0]}</span>}
       </div>
 
       <button className="submit-btn" type="submit">Send Order</button>
