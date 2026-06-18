@@ -1,11 +1,38 @@
-﻿using OrderAccumulator.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using OrderAccumulator.Services;
+using OrderAccumulator.Services.Interfaces;
+using QuickFix.Fields;
 
-Console.WriteLine("Iniciando OrderAccumulator (Acceptor FIX 4.4)...");
+var host = Host.CreateDefaultBuilder(args)
+.ConfigureServices(services =>
+{
+    services.AddSingleton<IExposureAccumulator, ExposureAccumulator>();
+    services.AddKeyedTransient<IExposureProcessor, BuyExposureProcessor>(Side.BUY);
+    services.AddKeyedTransient<IExposureProcessor, SellExposureProcessor>(Side.SELL);
 
-var service = new FixAcceptorService("Config/Acceptor.cfg");
+    services.AddSingleton(sp =>
+    {
+        return new OrderAccumulatorApplication(new Dictionary<char, IExposureProcessor>
+        {
+            { Side.BUY, sp.GetRequiredKeyedService<IExposureProcessor>(Side.BUY) },
+            { Side.SELL, sp.GetRequiredKeyedService<IExposureProcessor>(Side.SELL) }
+        });
+    });
+
+    services.AddSingleton<IFixAcceptorService>(sp =>
+    {
+        return new FixAcceptorService("Config/Acceptor.cfg", sp.GetRequiredService<OrderAccumulatorApplication>());
+    });
+})
+.Build();
+
+Console.WriteLine("Starting Order Accumulator (Acceptor FIX 4.4)...");
+
+var service = host.Services.GetRequiredService<IFixAcceptorService>();
 service.Start();
 
-Console.WriteLine("Pressione ENTER para encerrar.");
+Console.WriteLine("Press ENTER to stop.");
 Console.ReadLine();
 
 service.Stop();

@@ -2,6 +2,7 @@
 using OrderGenerator.Api.Dtos;
 using OrderGenerator.Api.Hubs;
 using QuickFix;
+using QuickFix.Fields;
 
 namespace OrderGenerator.Api.Services;
 
@@ -34,8 +35,8 @@ public class OrderGeneratorApplication : IApplication
             var orderId = report.OrderID.Value;
             var (status, returnMessage) = report.ExecType.Value switch
             {
-                '0' => ("Executed", "Order executed successfully"),
-                '8' => ("Rejected", "Order rejected by exposition limit"),
+                ExecType.NEW => ("Executed", "Order executed successfully"),
+                ExecType.REJECTED => ("Rejected", "Order rejected by exposure limit"),
                 _ => throw new ArgumentException("Invalid Type")
             };
 
