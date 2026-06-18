@@ -12,8 +12,8 @@ function OrderForm({ onSubmit }) {
     const newErrors = {};
     if (!symbol) newErrors.symbol = "Symbol is required.";
     if (!side) newErrors.side = "Side is required.";
-    if (!quantity || quantity <= 0) newErrors.quantity = "Quantity must be greater than 0.";
-    if (!price || price <= 0) newErrors.price = "Price must be greater than 0.";
+    if (!quantity || quantity <= 0 || quantity >= 100000) newErrors.quantity = "Quantity must be greater than 0 and less than 100,000.";
+    if (!price || price <= 0 || price >= 1000) newErrors.price = "Price must be greater than 0 and less than 1,000.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
