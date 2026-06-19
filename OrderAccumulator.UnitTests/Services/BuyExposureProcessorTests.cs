@@ -16,7 +16,8 @@ public class BuyExposureProcessorTests
     }
 
     [Theory, AutoNSubstitute]
-    public void Process_ShouldSetExposure_And_ReturnsNewExecutionReport_When_UnderMaxExposure(IExposureAccumulator accumulator, NewOrderSingle order)
+    public void Process_ShouldSetExposure_And_ReturnsNewExecutionReport_When_UnderMaxExposure(
+        IExposureAccumulator accumulator, NewOrderSingle order)
     {
         // Arrange
         var sut = new BuyExposureProcessor(accumulator);
@@ -47,7 +48,8 @@ public class BuyExposureProcessorTests
     }
 
     [Theory, AutoNSubstitute]
-    public void Process_ShouldNotSetExposure_And_ReturnsRejectedExecutionReport_When_AtOrAboveMaxExposure(IExposureAccumulator accumulator, NewOrderSingle order)
+    public void Process_ShouldNotSetExposure_And_ReturnsRejectedExecutionReport_When_AtOrAboveMaxExposure(
+        IExposureAccumulator accumulator, NewOrderSingle order)
     {
         // Arrange
         var sut = new BuyExposureProcessor(accumulator);
