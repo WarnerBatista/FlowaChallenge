@@ -6,11 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddSingleton<ISessionIdProvider, SessionIdProvider>();
+builder.Services.AddSingleton<IOrderQueue, OrderQueue>();
+builder.Services.AddHostedService<OrderWorker>();
 builder.Services.AddSingleton<OrderGeneratorApplication>();
 builder.Services.AddSingleton<IFixInitiatorService>(sp =>
     {
         var application = sp.GetRequiredService<OrderGeneratorApplication>();
-        return new FixInitiatorService("config/initiator.cfg", application);
+        var queue = sp.GetRequiredService<IOrderQueue>();
+        return new FixInitiatorService("config/initiator.cfg", application, queue);
     });
 
 builder.Services.AddSignalR();
