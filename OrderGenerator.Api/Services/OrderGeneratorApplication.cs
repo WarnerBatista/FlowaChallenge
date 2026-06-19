@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using OrderGenerator.Api.Dtos;
 using OrderGenerator.Api.Hubs;
+using OrderGenerator.Api.Services.Interfaces;
 using QuickFix;
 using QuickFix.Fields;
 
@@ -9,18 +10,18 @@ namespace OrderGenerator.Api.Services;
 public class OrderGeneratorApplication : IApplication
 {
     private readonly IHubContext<OrderHub> _hubContext;
+    private readonly ISessionIdProvider _sessionIdProvider;
 
-    public OrderGeneratorApplication(IHubContext<OrderHub> hubContext)
+    public OrderGeneratorApplication(IHubContext<OrderHub> hubContext, ISessionIdProvider sessionIdProvider)
     {
-        _hubContext = hubContext;
+        _hubContext = hubContext ?? throw new ArgumentNullException(nameof(hubContext));
+        _sessionIdProvider = sessionIdProvider ?? throw new ArgumentNullException(nameof(sessionIdProvider));
     }
-
-    public SessionID? SessionID { get; private set; }
 
     public void OnCreate(SessionID sessionID) => Console.WriteLine($"Session created: {sessionID}");
     public void OnLogon(SessionID sessionID)
     {
-        SessionID = sessionID;
+        _sessionIdProvider.SetSessionId(sessionID);
         Console.WriteLine($"Logon: {sessionID}");
     }
     public void OnLogout(SessionID sessionID) => Console.WriteLine($"Logout: {sessionID}");

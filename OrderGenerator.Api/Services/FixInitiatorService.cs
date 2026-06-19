@@ -14,11 +14,13 @@ public class FixInitiatorService : IFixInitiatorService
     private readonly string _configFile;
     private IInitiator? _initiator;
     private readonly OrderGeneratorApplication _application;
+    private readonly IOrderQueue _queue;
 
-    public FixInitiatorService(string configFile, OrderGeneratorApplication application)
+    public FixInitiatorService(string configFile, OrderGeneratorApplication application, IOrderQueue queue)
     {
         _configFile = configFile ?? throw new ArgumentNullException(nameof(configFile));
         _application = application ?? throw new ArgumentNullException(nameof(application));
+        _queue = queue ?? throw new ArgumentNullException(nameof(queue));
     }
 
     public void Start()
@@ -41,9 +43,6 @@ public class FixInitiatorService : IFixInitiatorService
 
     public OrderResponse SendOrder(OrderRequest order)
     {
-        if (_application?.SessionID == null)
-            return new OrderResponse("Something went wrong!", Guid.Empty.ToString(), "Error");
-
         var orderId = Guid.NewGuid().ToString();
         var orderSingle = new NewOrderSingle(
             new ClOrdID(orderId),
@@ -56,7 +55,7 @@ public class FixInitiatorService : IFixInitiatorService
         orderSingle.SetField(new OrderQty(order.Quantity));
         orderSingle.SetField(new Price(order.Price));
 
-        Task.Run(() => Session.SendToTarget(orderSingle, _application.SessionID));
+        _queue.EnqueueAsync(orderSingle);
 
         return new OrderResponse("Order received and is being processed.", orderId, "Pending");
     }
