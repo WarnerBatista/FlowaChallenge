@@ -10,4 +10,8 @@
     <PackageReference Include="QuickFIXn.FIX4.4" Version="1.13.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FixCommons\FixCommons.csproj" />
+  </ItemGroup>
+
 </Project>

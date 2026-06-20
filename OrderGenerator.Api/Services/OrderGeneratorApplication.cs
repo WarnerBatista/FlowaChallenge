@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using FixCommons;
+using Microsoft.AspNetCore.SignalR;
 using OrderGenerator.Api.Dtos;
 using OrderGenerator.Api.Hubs;
-using OrderGenerator.Api.Services.Interfaces;
 using QuickFix;
 using QuickFix.Fields;
 

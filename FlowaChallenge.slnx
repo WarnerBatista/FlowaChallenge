@@ -10,6 +10,7 @@
   </Folder>
   <Folder Name="/buildingBlocks/" />
   <Folder Name="/buildingBlocks/FixCommon/">
+    <Project Path="FixCommons.Tests/FixCommons.Tests.csproj" Id="7e59628f-e292-4232-b399-7a9136ceb182" />
     <Project Path="FixCommons/FixCommons.csproj" Id="332fd14e-5818-4b9d-b9f2-c7b8d4c81706" />
   </Folder>
 </Solution>

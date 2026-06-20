@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using FixCommons;
+using Microsoft.AspNetCore.SignalR;
 using NSubstitute;
 using OrderGenerator.Api.Dtos;
 using OrderGenerator.Api.Hubs;

@@ -1,3 +1,4 @@
+using FixCommons;
 using OrderGenerator.Api.Hubs;
 using OrderGenerator.Api.Services;
 using OrderGenerator.Api.Services.Interfaces;
