@@ -159,4 +159,19 @@ public class FixInitiatorServiceTests
         Assert.NotNull(side);
         Assert.Equal(expectedSide, side.Value);
     }
+
+    [Fact]
+    public void GetSide_ShouldThrow_WhenSideIsInvalid()
+    {
+        // Arrange
+        var application = new OrderGeneratorApplication(Substitute.For<IHubContext<OrderHub>>(), Substitute.For<ISessionIdProvider>());
+        var queue = Substitute.For<IOrderQueue>();
+        var sut = new FixInitiatorService("config/Initiator.cfg", application, queue);
+
+        // Act & Assert
+        Assert.Throws<TargetInvocationException>(() =>
+            typeof(FixInitiatorService)
+                .GetMethod("GetSide", BindingFlags.NonPublic | BindingFlags.Static)!
+                .Invoke(null, new object[] { "INVALID" }));
+    }
 }
