@@ -34,6 +34,8 @@ public class FixAcceptorServiceTests
         // Assert
         Assert.NotNull(acceptorField);
         Assert.True(isStarted);
+
+        sut.Stop();
     }
 
     [Theory, AutoNSubstitute]
