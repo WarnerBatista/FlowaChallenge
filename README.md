@@ -35,7 +35,7 @@ Passos
 Clone o repositório:
 
 bash
-git clone https://github.com/seu-repositorio.git
+git clone https://github.com/WarnerBatista/FlowaChallenge
 cd seu-repositorio
 Restaure as dependências do backend:
 
