@@ -8,8 +8,9 @@
     <Project Path="OrderGenerator.Api/OrderGenerator.Api.csproj" Id="6c159474-fb32-42d4-b6f8-45b7c0c2e998" />
     <Project Path="OrderGenerator.UnitTests/OrderGenerator.UnitTests.csproj" Id="72589a45-7bdf-4d2e-878a-b85c5518f1d8" />
   </Folder>
-  <Folder Name="/Apps/OrderGenerator.Portal/" />
   <Folder Name="/buildingBlocks/" />
-  <Folder Name="/buildingBlocks/Abstrations/" />
-  <Folder Name="/buildingBlocks/Abstrations/Domain/" />
+  <Folder Name="/buildingBlocks/FixCommon/">
+    <Project Path="FixCommons.Tests/FixCommons.Tests.csproj" Id="7e59628f-e292-4232-b399-7a9136ceb182" />
+    <Project Path="FixCommons/FixCommons.csproj" Id="332fd14e-5818-4b9d-b9f2-c7b8d4c81706" />
+  </Folder>
 </Solution>

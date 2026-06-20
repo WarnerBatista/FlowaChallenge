@@ -1,5 +1,5 @@
-﻿using OrderGenerator.Api.Services.Interfaces;
-using QuickFix;
+﻿using FixCommons;
+using OrderGenerator.Api.Services.Interfaces;
 
 namespace OrderGenerator.Api.Services;
 
@@ -16,11 +16,16 @@ public class OrderWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (_sessionIdProvider.TryGetSessionID(out var sessionID))
+        await foreach (var order in _orderQueue.Reader.ReadAllAsync(stoppingToken))
         {
-            await foreach (var order in _orderQueue.Reader.ReadAllAsync(stoppingToken))
+            try
             {
-                Session.SendToTarget(order, sessionID!);
+                _sessionIdProvider.SendToTarget(order);
+            }
+            catch (Exception ex)
+            {
+                await _orderQueue.EnqueueAsync(order);
+                Console.WriteLine($"Error sending order: {ex.Message}");
             }
         }
     }

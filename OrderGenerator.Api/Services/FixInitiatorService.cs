@@ -18,7 +18,7 @@ public class FixInitiatorService : IFixInitiatorService
 
     public FixInitiatorService(string configFile, OrderGeneratorApplication application, IOrderQueue queue)
     {
-        _configFile = configFile ?? throw new ArgumentNullException(nameof(configFile));
+        _configFile = configFile;
         _application = application ?? throw new ArgumentNullException(nameof(application));
         _queue = queue ?? throw new ArgumentNullException(nameof(queue));
     }

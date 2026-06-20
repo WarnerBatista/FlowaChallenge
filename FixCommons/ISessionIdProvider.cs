@@ -1,9 +1,9 @@
 ﻿using QuickFix;
 
-namespace OrderGenerator.Api.Services.Interfaces;
+namespace FixCommons;
 
 public interface ISessionIdProvider
 {
-    bool TryGetSessionID(out SessionID? sessionID);
     void SetSessionId(SessionID sessionId);
+    bool SendToTarget(Message order);
 }

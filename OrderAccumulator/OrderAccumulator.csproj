@@ -18,4 +18,8 @@
 	</None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FixCommons\FixCommons.csproj" />
+  </ItemGroup>
+
 </Project>
